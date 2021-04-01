@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-shihelper-dev-233303-authRole",
+      "UnauthRoleArn": "arn:aws:iam::997685140093:role/amplify-shihelper-dev-233303-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::997685140093:role/amplify-shihelper-dev-233303-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-shihelper-dev-233303-deployment",
+      "UnauthRoleName": "amplify-shihelper-dev-233303-unauthRole",
+      "StackName": "amplify-shihelper-dev-233303",
+      "StackId": "arn:aws:cloudformation:us-east-1:997685140093:stack/amplify-shihelper-dev-233303/f889c750-929a-11eb-a8e7-0ece9c9311f7",
+      "AmplifyAppId": "d1e8tag32p9xtl"
+    }
+  }
+}
