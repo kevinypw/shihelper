@@ -1,0 +1,46 @@
+.textBox{
+    padding: 0px;
+    height: 50%;
+    position: relative;
+    left: 0;
+    outline: none;
+    border: 1px solid #cdcdcd;
+    border-color: rgba(0, 0, 0, .15);
+    background-color: white;
+    font-size: 16px;
+    width: 100%;
+    margin-right: -4px;
+    overflow-y: scroll;
+    --scrollbarBG: #CFD8DC;
+    --thumbBG: #90A4AE;
+    scrollbar-width: inherit;
+    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+.textBox::-webkit-scrollbar {
+    width: 11px;
+}
+.textBox::-webkit-scrollbar-track {
+    background: var(--scrollbarBG);
+}
+.textBox::-webkit-scrollbar-thumb {
+    background-color: var(--thumbBG) ;
+    border-radius: 6px;
+    border: 3px solid var(--scrollbarBG);
+}
+
+.buttonTemp {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.label {
+    color: black;
+    padding: 8px;
+    word-wrap: break-word;
+}
