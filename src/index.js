@@ -1,15 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 //Class imports 
-import Editor from './components/editor.jsx'
-
-//Class definitions
+import App from './App';
 
 // ========================================
 
-ReactDOM.render(<Editor />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
 
 reportWebVitals();

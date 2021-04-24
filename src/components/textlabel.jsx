@@ -11,11 +11,14 @@ class TextLabel extends React.Component{
     }
     render(){
         return(
-            <h1 className="label" ref={el => this.labelRef = el}>{this.state.text}</h1>
+            <h5 className="label" ref={el => this.labelRef = el}>{this.state.text}</h5>
         );
     }
     setText(val){
         this.setState({text: val});
+    }
+    getText(val){
+        return this.state.text;
     }
 }
 
