@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Navigation, Footer, Home, About, Editor } from "./components";
-
+import { Navigation, Home, About, Editor } from "./components";
+import './index.css';
 function App() {
     return (
-      <div className="App">
+      <div className="App" class="scrollbar">
         <Router>
           <Navigation />
           <Switch>
@@ -12,10 +12,8 @@ function App() {
             <Route path="/about" exact component={() => <About />} />
             <Route path="/helper" exact component={() => <Editor />} />
           </Switch>
-          <Footer />
         </Router>
       </div>
     );
   }
-  
   export default App;

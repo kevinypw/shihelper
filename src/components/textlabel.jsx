@@ -5,14 +5,16 @@ class TextLabel extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            text: props.text
+            text: props.text,
+            type: props.type
         }
         this.labelRef = React.createRef();
     }
     render(){
         return(
-            <h5 className="label" ref={el => this.labelRef = el}>{this.state.text}</h5>
+            <pre class={this.state.type} ref={el => this.labelRef = el}>{this.state.text}</pre>
         );
+
     }
     setText(val){
         this.setState({text: val});
