@@ -4,8 +4,14 @@ class Annotator extends React.Component{
     constructor(props){
         super(props);
         this.handleMouseHover = this.handleMouseHover.bind(this);
+        var cInfo = props.char_info;
+        cInfo.forEach(char =>{
+            if(char.source === "modern"){
+                char.pinyin = this.getPinyin(char);
+            }
+        });
         this.state = {
-            char_info: props.char_info,
+            char_info: cInfo,
             isHovering: false,
         };
     }
@@ -13,8 +19,15 @@ class Annotator extends React.Component{
         return(
             <div onMouseEnter={this.handleMouseHover} 
                 onMouseLeave={this.handleMouseHover} 
-                align="center">
-                <p class="noselect">{this.state.char_info[0].simplified}</p>
+                align="center" class="h-100 w-100 pb-1 d-inline-block maskHover">
+                <div class={this.getToneMarkColor(0)}>
+                    <div class="d-flex justify-content-center align-items-center h-100">
+                        <div class="noselect mt-3 mb-3">
+                            <p class="m-0">{this.state.char_info[0].pinyin}</p>
+                            <p class='m-0'>{this.state.char_info[0].simplified}</p>
+                        </div>
+                    </div>
+                </div>
                 {this.state.isHovering &&
                 <div class="card onTop bigCenter border border-dark" align="left">
                     <div class="card-body">
@@ -38,16 +51,144 @@ class Annotator extends React.Component{
 
     renderCharInfo(){
         var rContent = [];
-        for(var i = 0; i < this.state.char_info.length; i++){
-            rContent[i] = (
+        var middle = [];
+        var modern = [];
+        for(var j = 0; j < this.state.char_info.length; j++){
+            if(this.state.char_info[j].source === "middle"){
+                middle.push(this.state.char_info[j]);
+            }
+            else{
+                modern.push(this.state.char_info[j]);
+            }
+        }
+        if(middle.length > 0){
+            rContent.push(
                 <div>
-                    <h5 class="card-title">{this.state.char_info[i].simplified}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{this.state.char_info[i].pinyin}, Tone: {this.state.char_info[i].tone}</h6>
-                    <p class="card-text">{this.state.char_info[i].english}</p>
+                    <h5 class="card-title">Middle Chinese:</h5>
                 </div>
             );
+            for(var i = 0; i < middle.length; i++){
+                rContent.push(
+                    <div>
+                        <h5 class="card-title">{middle[i].simplified}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{middle[i].pinyin}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">{middle[i].middle}</h6>
+                        <p class="card-text">{middle[i].english}</p>
+                    </div>
+                )
+            }
+        }
+        if(modern.length > 0){
+            rContent.push(
+                <div>
+                    <h5 class="card-title">Modern Chinese:</h5>
+                </div>
+            );
+            for(i = 0; i < modern.length; i++){
+                rContent.push(
+                    <div>
+                        <h5 class="card-title">{modern[i].simplified}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{modern[i].pinyin}</h6>
+                        <p class="card-text">{modern[i].english}</p>
+                    </div>
+                );
+            }
         }
         return rContent;
+    }
+
+    /*
+    *  Returns pinyin of a character as a string with tone mark
+    */
+    getPinyin(char){
+        var vowels = ['a', 'e', 'i', 'o', 'u'];
+        var toneMarks = [
+            ['ā', 'ē', 'ī', 'ō', 'ū'],
+            ['á', 'é', 'í', 'ó', 'ú'],
+            ['ǎ', 'ě', 'ǐ', 'ǒ', 'ǔ'],
+            ['à', 'è', 'ì', '', 'ù']
+        ]
+        var py = char.pinyin;
+        if(isNaN(py[py.length - 1])){
+            return py;
+        }
+        var tone = parseInt(py[py.length - 1]) - 1;
+        py = py.slice(0, py.length - 1);
+        if(tone === 4){
+            return py;
+        }
+        for(var i = 0; i < py.length; i++){
+            if(vowels.includes(py[i])){
+                switch(py[i]){
+                    case "a":
+                        return this.replaceAt(py, i, toneMarks[tone][0]);
+                    case "e":
+                        return this.replaceAt(py, i, toneMarks[tone][1]);
+                    case "i":
+                        if(i < py.length){
+                            switch(py[i+1]){
+                                case "a":
+                                    return this.replaceAt(py, i+1, toneMarks[tone][0]);
+                                case "e":
+                                    return this.replaceAt(py, i+1, toneMarks[tone][1]);
+                                case "i":
+                                    return this.replaceAt(py, i+1, toneMarks[tone][2]);
+                                case "o":
+                                    return this.replaceAt(py, i+1, toneMarks[tone][3]);
+                                case "u":
+                                    return this.replaceAt(py, i+1, toneMarks[tone][4]);
+                                default:
+                                    return this.replaceAt(py, i, toneMarks[tone][2]);
+                            }
+                        }
+                        else{
+                            return this.replaceAt(py, i, toneMarks[tone][2]);
+                        }
+                    case "o":
+                        return this.replaceAt(py, i, toneMarks[tone][3]);
+                    case "u":
+                        if(i < py.length){
+                            switch(py[i+1]){
+                                case "a":
+                                    return this.replaceAt(py, i+1, toneMarks[tone][0]);
+                                case "e":
+                                    return this.replaceAt(py, i+1, toneMarks[tone][1]);
+                                case "i":
+                                    return this.replaceAt(py, i+1, toneMarks[tone][2]);
+                                case "o":
+                                    return this.replaceAt(py, i+1, toneMarks[tone][3]);
+                                case "u":
+                                    return this.replaceAt(py, i+1, toneMarks[tone][4]);
+                                default:
+                                    return this.replaceAt(py, i, toneMarks[tone][4]);
+                            }
+                        }
+                        else{
+                            return this.replaceAt(py, i, toneMarks[tone][4]);
+                        }
+                    default:
+                        break;
+                }
+            }
+        }
+        return "Error: Annotator.getPinyin()";
+    }
+
+    /*
+    *  Replaces character in string at index, returns new string
+    */
+    replaceAt(string, index, replacement) {
+        return string.substr(0, index) + replacement + string.substr(index + 1);
+    }
+
+    /*
+    *  Returns correct tone tone color formatting based on number of character
+    */
+    getToneMarkColor(num){
+        if(this.state.char_info[num].tone < 3){
+            return "levelToneFormatting";
+        }
+        return "obliqueToneFormatting";
     }
 }
 

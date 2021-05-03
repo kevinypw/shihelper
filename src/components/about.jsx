@@ -5,14 +5,15 @@ function About() {
     <div className="about">
       <div class="container">
         <div class="row align-items-center my-5">
-          <div class="col-lg-7">
-          </div>
-          <div class="col-lg-5">
-            <h1 class="font-weight-light">A Guide to using the ShiHelper</h1>
-            <p>
-              asoij;dflkj;asldjk;faljk;sdfljk;asljk;dfasljk;
-            </p>
-          </div>
+            <h1 class="font-weight-light display-4">A Guide to using the ShiHelper</h1>
+            <div class="w-100">
+              <p class="lead">
+                bruh moment just type chinese in the box 
+              </p>
+              <p class="lead">
+                under construction asdlk;jfasdf
+              </p>
+            </div>
         </div>
       </div>
     </div>

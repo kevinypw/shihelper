@@ -79,3 +79,21 @@
     margin-top: -50px;
     margin-left: -50px;
 }
+
+.maskHover{
+    -webkit-transition: background .5s; /* For Safari 3.0 to 6.0 */
+    transition: background .5s; /* For modern browsers */
+    background-color: white;
+}
+
+.maskHover:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.levelToneFormatting{
+    background-color: rgba(63, 191, 63, 0.2);
+}
+
+.obliqueToneFormatting{
+    background-color: rgba(191, 127, 63, 0.2);
+}
