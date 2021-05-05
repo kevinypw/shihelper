@@ -4,43 +4,85 @@ class Annotator extends React.Component{
     constructor(props){
         super(props);
         this.handleMouseHover = this.handleMouseHover.bind(this);
+        this.toggleHoverState = this.toggleHoverState.bind(this);
         var cInfo = props.char_info;
-        cInfo.forEach(char =>{
-            if(char.source === "modern"){
-                char.pinyin = this.getPinyin(char);
+        var setDefault = false;
+        var firstMiddle = 0;
+        for(var a = 0; a < cInfo.length; a++){
+            if(cInfo[a].source === "modern"){
+                cInfo[a].pinyin = this.getPinyin(cInfo[a]);
             }
-        });
+            else if(!setDefault){
+                setDefault = true;
+                firstMiddle= a;
+            }
+        }
         this.state = {
             char_info: cInfo,
             isHovering: false,
+            default: firstMiddle,
+            left: 0,
+            top: 0,
         };
+        this.labelRef = React.createRef();
     }
     render(){
         return(
             <div onMouseEnter={this.handleMouseHover} 
                 onMouseLeave={this.handleMouseHover} 
-                align="center" class="h-100 w-100 pb-1 d-inline-block maskHover">
-                <div class={this.getToneMarkColor(0)}>
+                onClick={this.handleOnClick}
+                align="center" class="h-100 w-100 pb-1 d-inline-block maskHover" id="parent">
+                <div class={this.getToneMarkColor()}>
                     <div class="d-flex justify-content-center align-items-center h-100">
                         <div class="noselect mt-3 mb-3">
-                            <p class="m-0">{this.state.char_info[0].pinyin}</p>
-                            <p class='m-0'>{this.state.char_info[0].simplified}</p>
+                            <p class="m-0">{this.state.char_info[this.state.default].pinyin}</p>
+                            <p class='m-0'>{this.state.char_info[this.state.default].simplified}</p>
                         </div>
                     </div>
                 </div>
                 {this.state.isHovering &&
-                <div class="card onTop bigCenter border border-dark" align="left">
+                <div class="card onTop border border-dark customCard" ref={el => this.cardRef = el} id="card" align="left">
                     <div class="card-body">
                         {this.renderCharInfo()}
                     </div>
-                </div>
-                }
+                </div>}
             </div>
         );
     }
 
-    handleMouseHover(){
+    handleOnClick(){
+
+    }
+
+    handleMouseHover(e){
         this.setState(this.toggleHoverState);
+    }
+
+    componentDidUpdate(){
+        if(this.state.isHovering){
+            var card = document.getElementById('card');
+            if(card !== undefined && card !== null){
+                var bounding = card.getBoundingClientRect();
+                var intres = 0;
+                if(bounding.bottom > window.innerHeight){
+                    intres= bounding.top + window.pageYOffset - bounding.bottom + window.innerHeight;
+                    card.style.top = intres + "px";
+                }
+                else if(bounding.bottom > document.documentElement.clientHeight){
+                    intres= bounding.top + window.pageYOffset - bounding.bottom + document.documentElement.clientHeight;
+                    card.style.top = intres + "px";
+                }
+                if(bounding.right > window.innerWidth){
+                    intres= bounding.left + window.pageXOffset - bounding.right + window.innerWidth;
+                    card.style.left = intres + "px";
+                }
+                else if(bounding.right > document.documentElement.clientWidth){
+                    intres= bounding.left + window.pageXOffset - bounding.right + document.documentElement.clientWidth;
+                    card.style.left = intres + "px";
+                }
+            }
+            this.render()
+        }
     }
 
     toggleHoverState(state){
@@ -184,11 +226,14 @@ class Annotator extends React.Component{
     /*
     *  Returns correct tone tone color formatting based on number of character
     */
-    getToneMarkColor(num){
-        if(this.state.char_info[num].tone < 3){
-            return "levelToneFormatting";
+    getToneMarkColor(){
+        if(this.props.regulated){
+            if(this.state.char_info[this.state.default].tone < 3){
+                return "levelToneFormatting";
+            }
+            return "obliqueToneFormatting";
         }
-        return "obliqueToneFormatting";
+        return "";
     }
 }
 

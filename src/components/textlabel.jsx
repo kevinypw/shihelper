@@ -12,7 +12,9 @@ class TextLabel extends React.Component{
     }
     render(){
         return(
-            <pre class={this.state.type} ref={el => this.labelRef = el}>{this.state.text}</pre>
+            <div class="m-2">
+                <p class={this.state.type} ref={el => this.labelRef = el}>{this.state.text}</p>
+            </div>
         );
 
     }
