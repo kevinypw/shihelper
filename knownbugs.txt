@@ -1,16 +1,14 @@
 important
 - finish annotating functionality
-- finish guide/about writeup
-- make sure that the helper translates to traditional and also does a search using traditional for the middle chinese dict
-- make the  character div follow the mouse and not go off the screen
-- allow user to click the divs and then change the pinyin for the character that is being used
 - allow user to format the input in the editor
+- finish guide/about writeup
 - finish home page
+- make sure that the helper translates to traditional and also does a search using traditional for the middle chinese dict
+
 
 do too
 - when editor contains text already and new text is pasted in, the old text still shows up in table
-
-
+- pinyin annotator bugs out for po4
 
 Li Bai is cool
 床前明月光

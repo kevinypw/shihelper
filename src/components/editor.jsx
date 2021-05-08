@@ -52,7 +52,6 @@ class Editor extends React.Component {
             </div>
           </div>
           <TextLabel type="h2" text="flick the switch twice to analyze" ref={el => this.labelRef = el}/>
-          <TextLabel type="h4" text="green - level, orange - oblique"/>
           <table class="table p-0">
                <tbody>
                   {this.renderTableData()}
@@ -139,7 +138,7 @@ class Editor extends React.Component {
       var currentChar = 0;
       l.forEach(ch => {
         if(pushed < 5){
-          cRow.push(<td class="p-0"><Annotator char_info={ch} onClick={this.annotatorOnClick}
+          cRow.push(<td class="p-0" key={currentChar}><Annotator char_info={ch} onClick={this.annotatorOnClick}
                                         ref={this.annotatorRefs[currRow][currentChar]} 
                                         regulated={this.state.regulated} disabled={this.state.hoverDisabled}
                                         row={currRow} col={currentChar}/></td>);
@@ -152,11 +151,12 @@ class Editor extends React.Component {
       if(l.length < mLength){
         for(var i = l.length; i < mLength; i++){
           if(!this.state.regulated || i - l.length < 5){
-            cRow.push(<td class="p-0"></td>);
+            cRow.push(<td class="p-0" key={currentChar}></td>);
           }
+          currentChar++;
         }
       }
-      rTableData[currRow] = <tr class="p-0">{cRow}</tr>;
+      rTableData[currRow] = <tr class="p-0" key={currRow}>{cRow}</tr>;
       currRow++;
     });
     return rTableData;
