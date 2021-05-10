@@ -5,7 +5,7 @@ function Sources() {
     <div className="sources">
         <div class="container">
             <div class="row align-items-center my-5">
-                <h1 class="font-weight-light display-4">Important Sources</h1>
+                <h1 class="font-weight-light">Important Sources</h1>
                 <p class="lead">
                 This project stands on the shoulders of giants; it would not be possible without the following sources.
                 </p>
@@ -25,7 +25,7 @@ function Sources() {
                         <a href="http://ocbaxtersagart.lsait.lsa.umich.edu/BaxterSagartOCbyMandarinMC2014-09-20.pdf" class="card-link">Go to source!</a>
                     </div>
                 </div>
-                <h1 class="font-weight-light display-4 pt-5">Other Sources</h1>
+                <h1 class="font-weight-light pt-5">Other Sources</h1>
                 <div class="w-100">
                     <p class="lead">
                         Some cool things I found while researching.

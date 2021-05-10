@@ -91,13 +91,16 @@
 }
 
 .levelToneFormatting{
-    background-color: rgba(118, 228, 118, 0.712);
+    background-color: rgb(161, 255, 161);
 }
 
 .obliqueToneFormatting{
-    background-color: rgba(108, 164, 228, 0.671);
+    background-color: rgb(159, 204, 255);
 }
 
+.invalidToneFormatting{
+    background-color: rgb(255, 161, 161);
+}
 .customCard {
     position: absolute;
     pointer-events: none;

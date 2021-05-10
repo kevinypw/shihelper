@@ -31,6 +31,8 @@ class Annotator extends React.Component{
             left: 0,
             top: 0,
             clicked: false,
+            invalid: false,
+            pref: -1
         };
         this.labelRef = React.createRef();
     }
@@ -100,7 +102,7 @@ class Annotator extends React.Component{
     }
 
     setDefault(n){
-        this.setState({default: n});
+        this.setState({default: n, invalid: false}, this.props.update());
     }
 
     handleMouseHover(e){
@@ -281,6 +283,9 @@ class Annotator extends React.Component{
     *  Returns correct tone tone color formatting based on number of character
     */
     getToneMarkColor(){
+        if(this.state.pref >= 0 && this.props.regulated && Math.floor(this.state.char_info[this.state.default].tone / 3.0) !== this.state.pref){
+            return "invalidToneFormatting";
+        }
         if(this.props.regulated){
             if(this.state.char_info[this.state.default].tone < 3){
                 return "levelToneFormatting";

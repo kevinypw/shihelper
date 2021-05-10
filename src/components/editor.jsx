@@ -4,15 +4,15 @@ import { characterData } from "../data/characters";
 import { middleData } from "../data/middleCharacters";
 import Annotator from './annotator.jsx';
 import Switch from './toggleSwitch.jsx';
-import TextLabel from './textlabel.jsx';
+import CellDisplay from './celldisplay.jsx';
 
 class Editor extends React.Component {
   constructor(props){
     super(props);
     this.editorRef = React.createRef();
     this.buttonRef = React.createRef();
-    this.labelRef = React.createRef();
     this.annotatorRefs = [];
+    this.cellDisplayRefs = [];
     this.analyzeState = this.analyzeState.bind(this);
     this.calcHeuristic = this.calcHeuristic.bind(this);
     this.toggleRegulated = this.toggleRegulated.bind(this);
@@ -33,7 +33,7 @@ class Editor extends React.Component {
       <div className="helper">
         <div class="container p-auto">
           <div>
-            <h4 class="d-inline-block m-3">Regulated Verse Mode</h4>
+            <h4 class="d-inline-block m-3 font-weight-normal">Regulated Verse Mode</h4>
             <Switch theme="graphite-small" className="d-inline align-middle" enabled={this.state.enabled} onStateChanged={this.toggleRegulated} />
           </div>
           <div class="textBox">
@@ -51,7 +51,8 @@ class Editor extends React.Component {
               渾欲不勝簪 <br></br>
             </div>
           </div>
-          <TextLabel type="h2" text="flick the switch twice to analyze" ref={el => this.labelRef = el}/>
+          <div class="m-4">
+          </div>
           <table class="table p-0">
                <tbody>
                   {this.renderTableData()}
@@ -71,6 +72,26 @@ class Editor extends React.Component {
   componentDidUpdate(){
     if(this.state.regulated || this.state.enabled){
       this.analyzeState();
+      var pattern = ["NP", "P", "P", "NP"]; //1 np, 0 p
+      for(var a = 0; a < this.cellDisplayRefs.length; a +=8){
+        if(this.cellDisplayRefs.length - a < 8){
+          var len = (Math.ceil((this.cellDisplayRefs.length - a)/2.0)) * 2;
+          var diff = (this.cellDisplayRefs.length - a) % 2;
+          for(var tc = len; tc > 0; tc-=2){
+            if(tc === len && diff === 1){
+              this.cellDisplayRefs[a+tc-2].current.setState({parallel: pattern[tc/2-1]});
+            }else{
+              this.cellDisplayRefs[a+tc-2].current.setState({parallel: pattern[tc/2-1]});
+              this.cellDisplayRefs[a+tc-1].current.setState({parallel: pattern[tc/2-1]});
+            }
+          }
+        }else{
+          for(var tb = 8; tb > 0; tb-=2){
+            this.cellDisplayRefs[a+tb-2].current.setState({parallel: pattern[tb/2-1]});
+            this.cellDisplayRefs[a+tb-1].current.setState({parallel: pattern[tb/2-1]});
+          }
+        }
+      }
     }
   }
   /*
@@ -132,6 +153,12 @@ class Editor extends React.Component {
         this.annotatorRefs[a][b] = React.createRef();
       }
     }
+    if(this.state.regulated){
+      this.cellDisplayRefs = [];
+      for(var f = 0; f < this.state.characters.length; f++){
+        this.cellDisplayRefs[f] = React.createRef();
+      }
+    }
     this.state.characters.forEach(l => {
       var cRow = [];
       var pushed = 0;
@@ -141,7 +168,7 @@ class Editor extends React.Component {
           cRow.push(<td class="p-0" key={currentChar}><Annotator char_info={ch} onClick={this.annotatorOnClick}
                                         ref={this.annotatorRefs[currRow][currentChar]} 
                                         regulated={this.state.regulated} disabled={this.state.hoverDisabled}
-                                        row={currRow} col={currentChar}/></td>);
+                                        row={currRow} col={currentChar} update={this.analyzeState}/></td>);
           if(this.state.regulated){
             pushed++;
           }
@@ -155,6 +182,9 @@ class Editor extends React.Component {
           }
           currentChar++;
         }
+      }
+      if(this.state.regulated){
+        cRow.push(<td class="p-0" key={currentChar}><CellDisplay ref={this.cellDisplayRefs[currRow]} content={" A"}/></td>);
       }
       rTableData[currRow] = <tr class="p-0" key={currRow}>{cRow}</tr>;
       currRow++;
@@ -226,11 +256,52 @@ class Editor extends React.Component {
   }
 
   analyzeState(){
-    var ret = "";
+    var formsrhyme = [[0, 1, 0, 1], [0, 1, 0, 1], [1, 1, 0, 1], [1, 1, 0, 1]];
+    var formsparallel = [[1, 0, 0, 1], [1, 0, 0, 1], [1, 0, 0, 1], [1, 0, 0, 1]];
+    var forms = [[[1, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 1, 1], [1, 1, 1, 0, 0]], 
+                [[0, 0, 0, 1, 1], [1, 1, 1, 0, 0], [1, 1, 0, 0, 1], [0, 0, 1, 1, 0]], 
+                [[1, 1, 1, 0, 0], [0, 0, 1, 1, 0], [0, 0, 0, 1, 1], [1, 1, 1, 0, 0]], 
+                [[0, 0, 1, 1, 0], [1, 1, 1, 0, 0], [1, 1, 0, 0, 1], [0, 0, 1, 1, 0]]];
     for(var a = 0; a < this.annotatorRefs.length; a += 4){
-      ret += JSON.stringify(this.calcHeuristic(a)) + "\n";
+      var res = this.calcHeuristic(a);
+      var mv = 0;
+      var loc = 0;
+      for(let b = 0; b < 4; b++){
+        if(res[b] > mv){
+          loc = b;
+          mv = res[b];
+        }
+      }
+      for(var c = 0; c < 4; c++){
+        for(var b = 0; b < 5; b++){
+          if(this.annotatorRefs[a+c] !== undefined && this.annotatorRefs[a+c] !== null && this.annotatorRefs[a+c][b] !== undefined && this.annotatorRefs[a+c][b] !== null){
+            var ar = this.annotatorRefs[a+c][b].current;
+            if(ar !== null){
+              if(ar.state.pref !== forms[loc][c][b]){
+                ar.setState({pref: forms[loc][c][b]});
+              }
+              else{
+                ar.forceUpdate();
+              }
+            }
+          }
+        }
+        var r = ". ";
+        var p = "";
+        if(formsrhyme[loc][c] === 1){
+          r = "△ ";
+        }
+        if(formsparallel[loc][c] === 1){
+          p = "||";
+        }
+        else if(formsparallel[loc][c] === 0){
+          p = "⎯⎯";
+        }
+        if(this.cellDisplayRefs[a+c] !== undefined){
+          this.cellDisplayRefs[a+c].current.setState({rhyme: r+p});
+        }
+      }
     }
-    this.labelRef.state.text = ret;
   }
 
   calcHeuristic(num){

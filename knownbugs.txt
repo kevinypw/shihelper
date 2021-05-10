@@ -1,5 +1,4 @@
 important
-- finish annotating functionality
 - allow user to format the input in the editor
 - finish guide/about writeup
 - finish home page
