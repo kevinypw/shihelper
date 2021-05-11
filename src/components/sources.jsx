@@ -17,12 +17,19 @@ function Sources() {
                         <a href="https://www.mdbg.net/chinese/dictionary?page=cedict" class="card-link">Go to source!</a>
                     </div>
                 </div>
-                <div class="card w-100">
+                <div class="card w-100 mb-2">
                     <div class="card-body">
                         <h5 class="card-title">Baxter-Sagart Old Chinese Reconstruction v1.1 [2014]</h5>
                         <h6 class="card-subtitle mb-2 text-muted">William H. Baxter, Laurent Sagant at UMich</h6>
                         <p class="card-text">About 5,000 items with Old Chinese and Middle Chinese reconstructions.</p>
                         <a href="http://ocbaxtersagart.lsait.lsa.umich.edu/BaxterSagartOCbyMandarinMC2014-09-20.pdf" class="card-link">Go to source!</a>
+                    </div>
+                </div>
+                <div class="card w-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bolder">How to Read Chinese Poetry: A Guided Anthology (How to Read Chinese Literature)</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">蔡宗齊</h6>
+                        <p class="card-text">A helpful anthology of Chinese Poetry, complete with explanations and analysis.</p>
                     </div>
                 </div>
                 <h1 class="font-weight-light pt-5">Other Sources</h1>
