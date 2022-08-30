@@ -1,8 +1,10 @@
 # ShiHelper
-A web app that I wrote for the final project for my Chinese Poetry class.
+A web app written for the final project for CHIN-386 — Art of Chinese Poetry for the Spring 2021 semester. 
 
-It took regulated verse poetry as input, and output an annotated version complete with tone markings and deviations from the suspected tone pattern. 
+### Capabilities
+It takes regulated verse poetry as input, and outputs an annotated version complete with tone markings and deviations from the suspected tone pattern. 
 
-I wrote it using React, and hosted it on AWS Amplify. 
+### Specifications
+This project was written in React, and was Hosted on AWS Amplify. 
 
-It has since been taken down because I was worried I am going to forget when my Amplify Free Tier subscription runs out.
+As a precaution against forgetting when my AWS Free Tier expires, this project has since been taken down from AWS Amplify.
