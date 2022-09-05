@@ -4,7 +4,6 @@ important
 - finish home page
 - make sure that the helper translates to traditional and also does a search using traditional for the middle chinese dict
 
-
 do too
 - when editor contains text already and new text is pasted in, the old text still shows up in table
 - pinyin annotator bugs out for po4

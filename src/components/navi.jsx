@@ -1,5 +1,26 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useParams
+} from "react-router-dom";
+
+function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return (
+      <Component
+        {...props}
+        router={{ location, navigate, params }}
+      />
+    );
+  }
+
+  return ComponentWithRouterProp;
+}
 
 function Navigation(props) {
   return (
@@ -13,18 +34,18 @@ function Navigation(props) {
           <div>
             <ul className="navbar-nav ml-auto">
               <li
-                class={`nav-item  ${
-                  props.location.pathname === "/" ? "active" : ""
+                className={`nav-item  ${
+                  props.router.location.pathname === "/" ? "active" : ""
                 }`}
               >
                 <Link className="nav-link" to="/">
                   Home
-                  <span class="sr-only">(current)</span>
+                  <span className="sr-only">(current)</span>
                 </Link>
               </li>
               <li
-                class={`nav-item  ${
-                  props.location.pathname === "/about/" ? "active" : ""
+                className={`nav-item  ${
+                  props.router.location.pathname === "/about/" ? "active" : ""
                 }`}
               >
                 <Link className="nav-link" to="/about/">
@@ -32,8 +53,8 @@ function Navigation(props) {
                 </Link>
               </li>
               <li
-                class={`nav-item  ${
-                  props.location.pathname === "/sources/" ? "active" : ""
+                className={`nav-item  ${
+                  props.router.location.pathname === "/sources/" ? "active" : ""
                 }`}
               >
                 <Link className="nav-link" to="/sources/">
@@ -41,8 +62,8 @@ function Navigation(props) {
                 </Link>
               </li>
               <li
-                class={`nav-item  ${
-                  props.location.pathname === "/helper/" ? "active" : ""
+                className={`nav-item  ${
+                  props.router.location.pathname === "/helper/" ? "active" : ""
                 }`}
               >
                 <Link className="nav-link" to="/helper/">

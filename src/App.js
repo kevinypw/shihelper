@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Navigation, Home, About, Editor, Sources} from "./components";
 import './index.css';
 function App() {
@@ -7,12 +7,12 @@ function App() {
       <div className="App" class="scrollbar">
         <Router>
           <Navigation />
-          <Switch>
-            <Route path="/" exact component={() => <Home />} />
-            <Route path="/about/" exact component={() => <About />} />
-            <Route path="/sources/" exact component={() => <Sources />} />
-            <Route path="/helper/" exact component={() => <Editor />} />
-          </Switch>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about/" element={<About />} />
+            <Route path="/sources/" element={<Sources />} />
+            <Route path="/helper/" element={<Editor />} />
+          </Routes>
         </Router>
       </div>
     );

@@ -1,4 +1,5 @@
 import React from "react";
+import dufu from '../images/Du-Fu-233x300.jpg';
 
 function Home() {
   return (
@@ -41,7 +42,7 @@ function Home() {
             <div class="col col-lg-3">
               <img
               class="img-fluid rounded"
-              src="http://www.revistamacau.com/rm2020/wp-content/uploads/2017/12/Du-Fu.jpg"
+              src={dufu}
               alt="ffd"
               />
               <p class="text-center"><small>Du Fu</small></p>
