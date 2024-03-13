@@ -1,4 +1,4 @@
-# ShiHelper
+# ShiHelper — Smart Annotator for Tang Dynasty Poetry
 A web app written for the final project for CHIN-386 — Art of Chinese Poetry for the Spring 2021 semester. 
 
 As the restrictions for the final project were very loose, I was able to ideate and create whatever I desired with very little input from my professor.
